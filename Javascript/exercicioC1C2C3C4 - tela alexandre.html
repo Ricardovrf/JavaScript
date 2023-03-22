@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Alexandre Soares">
+		<meta name="description" content="Exercício do Curso de Javascript">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Exercício C1, C2, C3 e C4 (minha versão)</title>
+		<style>
+			/* 
+			CSS 
+			*/
+			/* RESET */
+			* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			}
+			/* CONTENT */
+			/*@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");*/
+			/*body { font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; }*/
+			/* div { border: solid 1px yellowgreen; } Debug */
+			fieldset { 
+			border: dotted 1px lightslategray; 
+			padding: 1em;
+			}
+			legend { 
+			font-size: small;
+			padding: .5em;
+			}
+			/*label { text-align: center; }*/
+			label, 
+			p { 
+			font-size: 12pt;
+			font-weight: bold;
+			margin: 1em .3em;
+			padding: .6; 
+			}
+			input {
+			border: solid 1px lightblue;
+			border-radius: .6em;
+			font-size: 14pt;
+			margin: .3em;
+			width: 100%;
+			}
+			input::placeholder,
+			.input { padding: 1.5em .5em; }
+			input::placeholder { color: lightblue; }
+			.enviar {
+			background-color: darkorange;
+			border: none;
+			border-radius: .6em;
+			color: darkblue;
+			font-weight: bold;
+			padding-bottom: 1.5em;
+			padding-top: 1.5em;
+			}
+			.enviar:hover {
+			background-color: darkblue;
+			color: darkorange;
+			}
+			.erro {
+			color: crimson;
+			margin: .6em auto 1em auto;
+			}
+			.acerto {
+			color: coral;
+			margin: .6em auto 1em auto;
+			}
+			/* 
+			LAYOUT 
+			*/
+			.container {
+			margin: 0;
+			padding: 1em;
+			}
+			/* GRID */
+			.grid {
+			display: grid;
+			flex-direction: column;
+			justify-content: space-around;
+			grid-column-gap: 1.2em;
+			grid-row-gap:  1.2em;
+			grid-template-columns: repeat(1, 360px);
+			grid-template-rows: repeat(1, 1fr);
+			}
+			/* FLEXBOX */
+			.flexbox {
+			align-content: center;
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			justify-items: center;
+			place-items: stretch stretch;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="grid">
+				<fieldset class="flexbox">
+					<legend>Exercício C1, C2, C3 e C4</legend>
+					<!-- Nome -->
+					<label for="nome">
+						Nome e Sobrenome
+						<input class="input" teclas="abcdefghijklmnopqrstuvwxyzçñãõáéíóúâêîôûàèìòùäëïöü" id="nome" name="nome" onblur="verificaNome();" onkeydown="return testaTecla(this.id);" placeholder="Nome e sobrenome" title="Deve ter pelo menos um sobrenome" type="text">
+						<!-- Mensagens (Nome) -->
+						<p class="erro" id="msgnome">
+							<!-- A mensagem vai aqui -->
+						</p>
+					</label>
+					<!-- CPF -->
+					<label for="cpf">
+						CPF
+						<input autocomplete="off" class="input" teclas="0123456789" id="cpf" maxlength="14" name="cpf" onblur="verificaCpf();" onkeydown="return validarCpf(this.id)" placeholder="CPF" title="Digite somente números" type="text">
+						<!-- Mensagens (CPF) -->
+						<p class="erro" id="msgcpf">
+							<!-- A mensagem vai aqui -->
+						</p>
+					</label>
+					<!-- Telefone -->
+					<label for="telefone">
+						Telefone
+						<input class="input" teclas="0123456789" id="telefone" maxlength="13" name="telefone" onblur="verificaTelefone();" onkeydown="return validarTelefone(this.id);" placeholder="Telefone" title="Digite somente números" type="text">
+						<!-- Mensagens (Telefone) -->
+						<p class="erro" id="msgtelefone">
+							<!-- A mensagem vai aqui -->
+						</p>
+					</label>
+					<!-- CEP -->
+					<label for="cep">
+						CEP
+						<input class="input" teclas="0123456789" id="cep" maxlength="9" name="cep" onblur="verificaCEP();" onkeydown="return validarCEP(this.id);" placeholder="CEP" title="Digite somente números" type="text">
+						<!-- Mensagens (CEP) -->
+						<p class="erro" id="msgcep">
+							<!-- A mensagem vai aqui -->
+						</p>
+					</label>
+					<!-- Senha -->
+					<label for="senha">
+						Senha
+						<input class="input" id="senha" maxlength="12" name="senha" placeholder="Senha" title="Deve ter entre 8 e 12 caracteres" type="password" simbolo="#$@&">
+						<!-- Mensagens (Senha) -->
+						<p class="erro" id="msgsenha">
+							<!-- A mensagem vai aqui -->
+						</p>
+					</label>
+					<!-- Repita a senha -->
+					<label for="confirmasenha">
+						Repita a senha
+						<input class="input" id="confirmaSenha" maxlength="12" name="confirmaSenha" title="Deve ter entre 8 e 12 caracteres" placeholder="Repita a senha" type="password">
+						<!-- Mensagens (Confirma Senha) -->
+						<p class="erro" id="msgconfirmasenha">
+							<!-- A mensagem vai aqui -->
+						</p>
+					</label>
+					<!-- Enviar -->
+					<label for="enviar">
+						<input class="enviar" onclick="validar()" type="submit" value="Enviar">
+						<!-- Mensagens (Comuns) -->
+						<p class="" id="msgerrosenha">
+							<!-- A mensagem vai aqui -->
+						</p>
+					</label>
+				</fieldset>
+				<!-- .flexbox -->
+				<!-- JS -->
+				<script>
+					function testaTecla(id){
+					        permitido=document.getElementById(id).getAttribute("teclas").toUpperCase();
+					        tecla = window.event.key.toUpperCase();
+					        if (permitido.indexOf(tecla)>=0 || window.event.ctrlKey || 
+					        window.event.altKey || window.event.keyCode<46) return true;
+					        else return false;
+					    }
+					
+					    function apagaMsg(){
+					     document.getElementById('msgerrosenha').innerHTML='';
+					    }
+					
+					    function tiraBrancos(vazio){
+					     return vazio!='';
+					    }
+					
+					    function verificaNome(){
+					
+					      nome = document.getElementById('nome').value.trim();
+					
+					      if (nome.length!=0){
+					      arrayNome=nome.split(" ");						
+					      document.getElementById('nome').value = arrayNome.filter(tiraBrancos).join(' ').toUpperCase();
+					        apagaMsg();
+					        if (arrayNome.length <= 1){
+					          document.getElementById('msgnome').innerHTML='É necessario pelo menos um sobrenome';
+					        }
+					      }
+					     else{
+					      document.getElementById('msgnome').innerHTML='Digite alguma coisa!';
+					     }
+					
+					    }
+					
+					    function verificaCpf(){
+					
+					      cpf = document.getElementById('cpf').value.trim();
+					
+					      if (cpf.length<14){
+					        document.getElementById('msgcpf').innerHTML='Cpf Invalido';
+					      }else{
+					        document.getElementById('msgcpf').innerHTML=' ';
+					      }
+					   }
+					
+					    function validarCpf(id){
+					      resp = testaTecla(id);
+					      if(resp == false){
+					        return false;
+					      }else if (window.event.ctrlKey || window.event.altKey || window.event.keyCode<46){
+					        return true;
+					      }else{
+					        var val = new String(window.document.getElementById('cpf').value.trim());
+					        if (val.length == 3){
+					          val = val.replace(val,val+".");
+					        }
+					        if (val.length == 7){
+					          val = val.replace(val,val+".");
+					        }
+					        if (val.length == 11){
+					          val = val.replace(val,val+"-");
+					        }              
+					      return window.document.getElementById('cpf').value = val;
+					      }
+					    }
+					
+					    function verificaCEP(){
+					
+					      cep = document.getElementById('cep').value.trim();
+					
+					      if (cep.length<9){
+					          document.getElementById('msgcep').innerHTML='CEP Invalido';
+					      }else{
+					          document.getElementById('msgcep').innerHTML=' ';
+					      }
+					    }
+					
+					    function validarCEP(id){
+					      resp = testaTecla(id);
+					      if(resp == false){
+					        return false;
+					      }else if (window.event.ctrlKey || window.event.altKey || window.event.keyCode<46){
+					        return true;
+					      }else{
+					        var val = new String(window.document.getElementById('cep').value.trim());
+					        if (val.length == 5){
+					          val = val.replace(val,val+"-");
+					        }              
+					      return window.document.getElementById('cep').value = val;
+					      }
+					    }
+					
+					    function verificaTelefone(){
+					
+					      telefone = document.getElementById('telefone').value.trim();
+					
+					      if (telefone.length<13){
+					          document.getElementById('msgtelefone').innerHTML='Telefone Invalido';
+					      }else{
+					          document.getElementById('msgtelefone').innerHTML=' ';
+					      }
+					    }
+					
+					    function validarTelefone(id){
+					        resp = testaTecla(id);
+					        if(resp == false){
+					            return false;
+					        }else if (window.event.ctrlKey || window.event.altKey || window.event.keyCode<46){
+					            return true;
+					        }else{
+					            var val = new String(window.document.getElementById('telefone').value.trim());
+					            if (val.length == 0){
+					                val = val.replace(val,val+"(");
+					            }
+					            if (val.length == 3){
+					                val = val.replace(val,val+")");
+					            }
+					            if (val.length == 8){
+					                val = val.replace(val,val+"-");
+					            }               
+					            return window.document.getElementById('telefone').value = val;
+					        }
+					}
+					
+					    function verifica(dado){
+					  
+					  simbolo = document.getElementById("senha").getAttribute("simbolo");
+					  tam = dado.length;
+					  num = 0;
+					  letra = 0;
+					  simb = 0;
+					  if(tam >= 8 && tam <= 12){
+					    for (i=0; i<tam; i++){ 
+					      cada = dado.charAt(i);
+					      if (simbolo.indexOf(cada)>=0){ //verifica simbolo
+					          simb = 4;
+					      }
+					      else if (isNaN(cada)){  //verifica Numero ou Letra
+					         letra = 2;  			
+					      }
+					      else{ 
+					         num = 1;
+					      }
+					    }
+					    total = num+letra+simb;
+					    return total;
+					  }else{
+					    total = 10;
+					    return total;
+					  }
+					}
+					
+					function validarSenha(senha){
+					
+					  senha = verifica(pass);
+					  resp = false;  
+					  switch (senha){
+					
+					    case 0:
+					    document.getElementById("msgsenha").innerHTML = "Digite a senha";
+						apagaMsg();
+					    break;
+					
+					    case 1:
+					    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra e um dos seguintes caracteres @#$%";
+						apagaMsg();
+					    break;
+					    
+					    case 2:
+					    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um numero e um dos seguintes caracteres @#$%";
+						apagaMsg();
+					    break;
+					
+					    case 3:
+					    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um dos seguintes caracteres @#$%";
+						apagaMsg();
+					    break;
+					
+					    case 4:
+					    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra e um numero";
+						apagaMsg();
+					    break;
+					
+					    case 5:
+					    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra";
+						apagaMsg();
+					    break;
+					
+					    case 6:
+					    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um numero";
+						apagaMsg();
+					    break;
+					
+					    case 7:
+					    document.getElementById("msgsenha").innerHTML = " ";
+					    resp = true;
+					    break;
+					   
+					    case 10:
+					    document.getElementById("msgsenha").innerHTML = "A senha deve conter entre 8 e 12 caracteres"
+						apagaMsg();
+					    break;
+					  }
+					  return resp;
+					}
+					
+					function validarConfirma(confirma){
+					
+					  confirma = verifica(check);
+					  resp = false;
+					  switch (confirma){
+					
+					    case 0:
+					      document.getElementById("msgconfirmasenha").innerHTML = "Digite a confirmação da senha";
+						  apagaMsg();
+					    break;
+					
+					    case 1:
+					      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos uma letra e um dos seguintes caracteres @#$%";
+						  apagaMsg();
+					    break;
+					  
+					    case 2:
+					      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um numero e um dos seguintes caracteres @#$%";
+						  apagaMsg();
+					    break;
+					
+					    case 3:
+					      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um dos seguintes caracteres @#$%";
+						  apagaMsg();
+					    break;
+					
+					    case 4:
+					      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um letra e um numero";
+						  apagaMsg();
+					    break;
+					
+					    case 5:
+					      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos uma letra";
+						  apagaMsg();
+					    break;
+					
+					    case 6:
+					      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um numero";
+						  apagaMsg();
+					    break;
+					
+					    case 7:
+					      document.getElementById("msgconfirmasenha").innerHTML = " ";
+					      resp = true;
+					    break;
+					 
+					    case 10:
+					      document.getElementById("msgconfirmasenha").innerHTML = "A senha deve conter entre 8 e 12 caracteres"
+						  apagaMsg();
+					    break;
+					  }
+					  return resp;
+					}
+					
+					function validar(){
+					
+					  pass = document.getElementById('senha').value;
+					  check = document.getElementById('confirmaSenha').value;
+					  
+					  senhaVerificada = validarSenha(pass);
+					  confirmaVerificada = validarConfirma(check);
+					  
+					  if(senhaVerificada == true && confirmaVerificada == true){
+					    if(pass == check){
+					      document.getElementById("msgerrosenha").innerHTML = "Tudo Certo";
+					      document.getElementById("msgerrosenha").style.color = 'green';
+					    }else{
+					      document.getElementById("msgerrosenha").innerHTML = "As senhas não são iguais";
+					      document.getElementById("msgerrosenha").style.color = 'red';
+					    }
+					  }
+					}
+					          
+				</script>
+			</div>
+			<!-- .grid -->
+		</div>
+		<!-- container -->
+	</body>
+</html>

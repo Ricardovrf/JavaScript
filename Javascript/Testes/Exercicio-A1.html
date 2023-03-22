@@ -1,0 +1,48 @@
+<html>
+	
+	<head>
+	
+		<title> Exercicio A1 </title>
+	
+	</head>
+	
+	<body>
+
+		<h2>Resolução do Exercicio A1</h2>
+
+		<script>
+
+
+			
+			texto = window.prompt('Escreva o que quiser');
+
+			
+
+			document.write("O tamanhado do campo é: " + texto.trim().length + "<br>");
+			
+			
+			if(isNaN(texto)){
+				document.write("Não é número<br>");
+			}else{
+				document.write("É número<br>");
+			}
+			
+
+			if(texto.includes("Java")){
+				document.write(" Sim contém a palavra Java<br>");
+			}else{
+				document.write(" Não contém a palavra Java<br>");
+			}
+			
+			
+			if(isNaN(texto)){
+				document.write("Caixa-Alta - " + texto.toUpperCase() + "<br>")
+			}else{
+				document.write(" É um número - Não existe Caixa-Alta<br>");
+			}
+			
+
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,408 @@
+<html>
+<head>
+<title>JavaScript - Exercício C1</title>
+</head>
+<body>
+
+
+<div class="modal_login" >			
+		<fieldset>				
+				<label for="email" >Senha</label>
+						<input type="password"  name="senha" id="senha" size="100" maxlength="12" title="Deve ter entre 8 e 12 caracteres" simbolo="#$@&" >
+					<p id="msgsenha" style="font-size:100%;color:#ff0000"></p>	
+
+				<label for="senha">Repita a Senha</label><p></p>
+				<input type="password" name="confirmaSenha" id="confirmaSenha" size="100" maxlength="12" title="Deve ter entre 8 e 12 caracteres"  >
+				<p  id="msgconfirmasenha" style="font-size:100%;color:#ff0000"></p>
+				
+				<input type="submit" value="Entrar" onclick="validar()" id="botaoLogin" />				
+				<p></p>
+				<p id="msgerrosenha" style="text-align:left;color:#ff0000;font-size:100%"></p>
+				
+		</fieldset>
+			
+	</div>	
+	
+	
+<script>
+  /* – As senhas devem obedecer os seguintes critérios:
+• Devem ser exatamente iguais;
+• Ter entre 8 e 12 caracteres;
+• Ter, no mínimo, 1 caracter alfabético;
+• Ter, no mínimo, 1 caracter numérico;
+• Ter, no mínimo, 1 dos símbolos #$@&;
+• As duas senhas têm áreas de mensagens individuais, 'msgsenha' e 
+'msgconfirmaSenha'. Usadas para erros individuais;
+• As duas senhas têm uma área de mensagens em comum, 
+'msgerrosenha', que dever ser utilizada para informar quando as 
+senhas divergem ou quando estiver tudo correto; */
+
+function verifica(dado){
+    
+  simbolo = document.getElementById("senha").getAttribute("simbolo");
+  tam = dado.length;
+  num = 0;
+  letra = 0;
+  simb = 0;
+  if(tam >= 8 && tam <= 12){
+    for (i=0; i<tam; i++){ 
+      cada = dado.charAt(i);
+      if (simbolo.indexOf(cada)>=0){ //verifica simbolo
+	  	    simb = 4;
+      }
+      else if (isNaN(cada)){  //verifica Numero ou Letra
+         letra = 2;  			
+		  }
+      else{ 
+		     num = 1;
+		  }
+    }
+    total = num+letra+simb;
+    return total;
+  }else{
+    total = 10;
+    return total;
+  }
+}
+
+function validarSenha(senha){
+
+  senha = verifica(pass);
+  resp = false;  
+  switch (senha){
+
+    case 0:
+    document.getElementById("msgsenha").innerHTML = "Digite a senha";
+    break;
+
+    case 1:
+    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra e um dos seguintes caracteres @#$%";
+    break;
+    
+    case 2:
+    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um numero e um dos seguintes caracteres @#$%";
+    break;
+
+    case 3:
+    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um dos seguintes caracteres @#$%";
+    break;
+
+    case 4:
+    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra e um numero";
+    break;
+
+    case 5:
+    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra";
+    break;
+
+    case 6:
+    document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um numero";
+    break;
+
+    case 7:
+    document.getElementById("msgsenha").innerHTML = " ";
+    resp = true;
+    break;
+   
+    case 10:
+    document.getElementById("msgsenha").innerHTML = "A senha deve conter entre 8 e 12 caracteres"
+    break;
+  }
+  return resp;
+}
+
+function validarConfirma(confirma){
+
+  confirma = verifica(check);
+  resp = false;
+  switch (confirma){
+
+    case 0:
+      document.getElementById("msgconfirmasenha").innerHTML = "Digite a confirmação da senha";
+    break;
+
+    case 1:
+      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos uma letra e um dos seguintes caracteres @#$%";
+    break;
+  
+    case 2:
+      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um numero e um dos seguintes caracteres @#$%";
+    break;
+
+    case 3:
+      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um dos seguintes caracteres @#$%";
+    break;
+
+    case 4:
+      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um letra e um numero";
+    break;
+
+    case 5:
+      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos uma letra";
+    break;
+
+    case 6:
+      document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um numero";
+    break;
+
+    case 7:
+      document.getElementById("msgconfirmasenha").innerHTML = " ";
+      resp = true;
+    break;
+ 
+    case 10:
+      document.getElementById("msgconfirmasenha").innerHTML = "A senha deve conter entre 8 e 12 caracteres"
+    break;
+  }
+  return resp;
+}
+
+function validar(){
+
+  pass = document.getElementById('senha').value;
+  check = document.getElementById('confirmaSenha').value;
+  
+  senhaVerificada = validarSenha(pass);
+  confirmaVerificada = validarConfirma(check);
+  
+  if(senhaVerificada == true && confirmaVerificada == true){
+    if(pass == check){
+      document.getElementById("msgerrosenha").innerHTML = "Tudo Certo";
+      document.getElementById("msgerrosenha").style.color = 'green';
+    }else{
+      document.getElementById("msgerrosenha").innerHTML = "As senhas não são iguais";
+      document.getElementById("msgerrosenha").style.color = 'red';
+    }
+  }
+}
+
+/*
+  function verificarNumero(dado){
+    tam = dado.length;
+    flag = 0;
+    for (i=0; i<tam; i++){
+      letra = dado.charAt(i);
+      if (isNaN(letra)){
+			  		//alert(flag);			
+		  }
+		  else{
+			  flag = 1;
+        //alert(flag);
+        
+		  }
+    }
+    return flag;
+  }
+  function verificarLetra(dado){
+    tam = dado.length;
+    flag = 0;
+    for (i=0; i<tam; i++){
+      letra = dado.charAt(i);
+      if (isNaN(letra)){
+			  flag = 1;
+        //alert(flag);			
+		  }
+		  else{
+			  
+        //alert(flag);
+        
+		  }
+    }
+    return flag;
+  }
+
+  function verificarSimbolo(dado){
+    simbolo = document.getElementById("senha").getAttribute("simbolo");
+    tam = dado.length;
+    flag = 0;
+    for (i=0; i<tam; i++){
+      letra = dado.charAt(i);
+      if (simbolo.indexOf(letra)>=0){
+			  flag = 1;
+       // alert(flag);			
+		  }
+		  else{
+			  
+        //alert(flag);
+        
+		  }
+    }
+    return flag;
+  }
+*/
+
+/*
+  function validar(){
+    
+    pass = document.getElementById('senha').value;
+    check = document.getElementById('confirmaSenha').value;
+    //arrayPass=document.getElementById('senha').value.split();
+    //arrayCheck=document.getElementById('confirmaSenha').value.split();
+    //alert("Chamou");
+    if(pass != 0 ){
+
+      if(check != 0 ){
+
+        if(pass.length >= 8 && pass.length <= 12){
+
+          if(check.length >= 8 && check.length <= 12){
+            
+            flagger = verificarNumero(pass);
+            
+            if(flagger == 1){
+
+              flagger = verificarNumero(check);
+
+              if(flagger == 1){
+
+                flagger = verificarLetra(pass);
+
+                if(flagger == 1){
+
+                  flagger = verificarLetra(check);
+
+                  if(flagger == 1){
+
+                    flagger = verificarSimbolo(pass);
+
+                    if(flagger == 1){
+
+                      flagger = verificarSimbolo(check);
+
+                      if(flagger == 1){
+
+                        if(pass == check){
+
+                          alert("Tudo Certo");
+
+                        }else{
+                          document.getElementById("msgerrosenha").innerHTML = "As senha não estão iguais";
+                        }
+
+                      }else{
+                        document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um dos seguintes caracteres @#$%";
+                      }
+
+                    }else{
+                      document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um dos caracteres @#$%";
+                    }
+
+                  }else{
+                    document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos uma letra";
+                  }
+
+                }else{
+                  document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra";
+                }
+
+              }else{
+                document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um numero";
+              }
+
+            }else{
+              document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um numero";
+            }
+
+          }else{
+            document.getElementById("msgconfirmasenha").innerHTML = "Deve ter entre 8 e 12 caracteres";
+          }
+
+        }else{
+          document.getElementById("msgsenha").innerHTML = "Deve ter entre 8 e 12 caracteres";
+        }
+
+      }else{
+        document.getElementById("msgconfirmasenha").innerHTML = "Digite a senha novamente";
+      }
+        
+    }else{
+      document.getElementById("msgsenha").innerHTML = "Digite a senha";
+    }
+  }
+*/
+
+</script>
+
+</body>
+<style>
+
+.modal_login_titulo h1{
+  color:#ffffff;  
+  z-index: 1; /* Sit on top */
+  left: 20%;
+  top: 20%;
+  width: 35%; /* Full width */
+  height: 20%; /* Full height */
+  overflow: hidden; /* Enable scroll if needed */
+  background-color:#12174C;
+  padding-top: 10px;
+  padding-left:20px;
+  margin: 1% auto 15% auto;
+  border-radius:10px;
+}
+.modal_login{
+  color:#12174C;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 20%;
+  top: 0%;
+  width: 35%; /* Full width */
+  height: 70%; /* Full height */
+  overflow: hidden; /* Enable scroll if needed */
+  background-color: #ffffff;
+  padding-top: 0px;
+  padding-left:0px;
+  margin: 0% auto 15% auto;
+  border-radius:10px;
+}
+.modal_login legend{  
+  color: #12174C;  
+  font-size: 1.0vw; 
+  border: none; 
+  font-weight: bold;  
+}
+.modal_login fieldset{    
+  border: none;
+padding: 10%;  
+}
+.modal_login label{ 
+ font-size: 1.4vw; 
+ padding: 12px;
+}
+.modal_login input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: auto 0;
+  display: inline-block;
+  border: 1px solid #3498db;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-weight: bold;
+  font-size: 1.2vw; 
+}
+.modal_login input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #3498db;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 1.2vw;
+}
+.modal_login input[type=submit] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-weight: bold;
+  background-color:#fb8500; 
+  color: #12174C;   
+  font-size:1.6vw; 
+}
+</style>
+
+</html>

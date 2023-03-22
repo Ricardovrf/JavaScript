@@ -1,0 +1,322 @@
+<html>
+<head>
+<title>JavaScript - Exercício C2</title>
+</head>
+<body>
+
+
+<div class="modal_login" >			
+		<fieldset>	
+				<label for="nome" >Nome e Sobrenome</label>
+						<input type="text"  name="nome" id="nome" size="40" maxlength="40" title="Maximo 40 caracteres" onblur="verificaNome();" onkeydown="return testaTecla(this.id);" teclas="qwertyuiopasdfghjklzxcvbnmáéúíóãõâêîôûç "/>
+						<p id="msgnome" style="font-size:100%;color:#ff0000"></p>
+				<label for="cpf" >CPF</label>
+						<input type="text"  name="cpf" id="cpf" size="14" maxlength="14" title="Deve ter 14 caracteres" onblur="verificaCpf();" onkeydown="return validarCpf(this.id)"  teclas="0123456789"/>
+						<p id="msgcpf" style="font-size:100%;color:#ff0000"></p>
+				<label for="senha" >Senha</label>
+						<input type="password"  name="senha" id="senha" size="12" maxlength="12" title="Entre 8 e 12 caracteres" simbolo="#$@&" >
+					<p id="msgsenha" style="font-size:100%;color:#ff0000"></p>	
+
+				<label for="senha">Repita a Senha</label><p></p>
+						<input type="password" name="confirmaSenha" id="confirmaSenha" size="12" maxlength="12" title="Entre 8 e 12 caracteres"  >
+						<p  id="msgconfirmasenha" style="font-size:100%;color:#ff0000"></p>
+				
+				<input type="submit" value="Enviar" onclick="validar()" id="botaoLogin" />				
+				<p></p>
+				<p id="msgerrosenha" style="text-align:left;color:#ff0000;font-size:100%"></p>
+				
+		</fieldset>
+			
+	</div>	
+	
+	
+<script>
+
+      function testaTecla(id){
+          permitido=document.getElementById(id).getAttribute("teclas").toUpperCase();
+          tecla = window.event.key.toUpperCase();
+          if (permitido.indexOf(tecla)>=0 || window.event.ctrlKey || 
+          window.event.altKey || window.event.keyCode<46) return true;
+          else return false;
+      }
+
+      function apagaMsg(){
+	      document.getElementById('msgnome').innerHTML='';
+      }
+
+      function tiraBrancos(vazio){
+	      return vazio!='';
+      }
+
+      function verificaNome(){
+
+        nome = document.getElementById('nome').value.trim();
+
+        if (nome.length!=0){
+		      arrayNome=nome.split(" ");						
+		      document.getElementById('nome').value = arrayNome.filter(tiraBrancos).join(' ').toUpperCase();
+          apagaMsg();
+          if (arrayNome.length <= 1){
+            document.getElementById('msgnome').innerHTML='É necessario pelo menos um sobrenome';
+          }
+        }
+	      else{
+		      document.getElementById('msgnome').innerHTML='Digite alguma coisa!';
+	      }
+
+      }
+
+      function verificaCpf(){
+
+        cpf = document.getElementById('cpf').value.trim();
+
+        if (cpf.length<14){
+          document.getElementById('msgcpf').innerHTML='Cpf Invalido';
+        }else{
+          document.getElementById('msgcpf').innerHTML=' ';
+        }
+     }
+
+      function validarCpf(id){
+        resp = testaTecla(id);
+        if(resp == false){
+          return false;
+        }else if (window.event.ctrlKey || window.event.altKey || window.event.keyCode<46){
+          return true;
+        }else{
+          var val = new String(window.document.getElementById('cpf').value.trim());
+          if (val.length == 3){
+            val = val.replace(val,val+".");
+          }
+          if (val.length == 7){
+            val = val.replace(val,val+".");
+          }
+          if (val.length == 11){
+            val = val.replace(val,val+"-");
+          }              
+        return window.document.getElementById('cpf').value = val;
+        }
+      }
+
+      function verifica(dado){
+    
+    simbolo = document.getElementById("senha").getAttribute("simbolo");
+    tam = dado.length;
+    num = 0;
+    letra = 0;
+    simb = 0;
+    if(tam >= 8 && tam <= 12){
+      for (i=0; i<tam; i++){ 
+        cada = dado.charAt(i);
+        if (simbolo.indexOf(cada)>=0){ //verifica simbolo
+            simb = 4;
+        }
+        else if (isNaN(cada)){  //verifica Numero ou Letra
+           letra = 2;  			
+        }
+        else{ 
+           num = 1;
+        }
+      }
+      total = num+letra+simb;
+      return total;
+    }else{
+      total = 10;
+      return total;
+    }
+  }
+  
+  function validarSenha(senha){
+  
+    senha = verifica(pass);
+    resp = false;  
+    switch (senha){
+  
+      case 0:
+      document.getElementById("msgsenha").innerHTML = "Digite a senha";
+      break;
+  
+      case 1:
+      document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra e um dos seguintes caracteres @#$%";
+      break;
+      
+      case 2:
+      document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um numero e um dos seguintes caracteres @#$%";
+      break;
+  
+      case 3:
+      document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um dos seguintes caracteres @#$%";
+      break;
+  
+      case 4:
+      document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra e um numero";
+      break;
+  
+      case 5:
+      document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos uma letra";
+      break;
+  
+      case 6:
+      document.getElementById("msgsenha").innerHTML = "Deve conter pelo menos um numero";
+      break;
+  
+      case 7:
+      document.getElementById("msgsenha").innerHTML = " ";
+      resp = true;
+      break;
+     
+      case 10:
+      document.getElementById("msgsenha").innerHTML = "A senha deve conter entre 8 e 12 caracteres"
+      break;
+    }
+    return resp;
+  }
+  
+  function validarConfirma(confirma){
+  
+    confirma = verifica(check);
+    resp = false;
+    switch (confirma){
+  
+      case 0:
+        document.getElementById("msgconfirmasenha").innerHTML = "Digite a confirmação da senha";
+      break;
+  
+      case 1:
+        document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos uma letra e um dos seguintes caracteres @#$%";
+      break;
+    
+      case 2:
+        document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um numero e um dos seguintes caracteres @#$%";
+      break;
+  
+      case 3:
+        document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um dos seguintes caracteres @#$%";
+      break;
+  
+      case 4:
+        document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um letra e um numero";
+      break;
+  
+      case 5:
+        document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos uma letra";
+      break;
+  
+      case 6:
+        document.getElementById("msgconfirmasenha").innerHTML = "Deve conter pelo menos um numero";
+      break;
+  
+      case 7:
+        document.getElementById("msgconfirmasenha").innerHTML = " ";
+        resp = true;
+      break;
+   
+      case 10:
+        document.getElementById("msgconfirmasenha").innerHTML = "A senha deve conter entre 8 e 12 caracteres"
+      break;
+    }
+    return resp;
+  }
+  
+  function validar(){
+  
+    pass = document.getElementById('senha').value;
+    check = document.getElementById('confirmaSenha').value;
+    
+    senhaVerificada = validarSenha(pass);
+    confirmaVerificada = validarConfirma(check);
+    
+    if(senhaVerificada == true && confirmaVerificada == true){
+      if(pass == check){
+        document.getElementById("msgerrosenha").innerHTML = "Tudo Certo";
+        document.getElementById("msgerrosenha").style.color = 'green';
+      }else{
+        document.getElementById("msgerrosenha").innerHTML = "As senhas não são iguais";
+        document.getElementById("msgerrosenha").style.color = 'red';
+      }
+    }
+  }
+
+       
+</script>
+</body>
+<style>
+.modal_login_titulo h1{
+  color:#ffffff;  
+  z-index: 1; /* Sit on top */
+  left: 20%;
+  top: 20%;
+  width: 35%; /* Full width */
+ /* height: 100%; /* Full height */
+  overflow: hidden; /* Enable scroll if needed */
+  background-color:#12174C;
+  padding-top: 10px;
+  padding-left:20px;
+  margin: 1% auto 15% auto;
+  border-radius:10px;
+}
+.modal_login{
+  color:#12174C;
+  /*position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 20%;
+  top: 0%;
+  width: 35%; /* Full width */
+  /*height: 100%; /* Full height */
+  overflow: hidden; /* Enable scroll if needed */
+  background-color: #ffffff;
+  padding-top: 0px;
+  padding-left:0px;
+  margin: 0% auto 15% auto;
+  border-radius:10px;
+}
+.modal_login legend{  
+  color: #12174C;  
+  font-size: 1.0vw; 
+  border: none; 
+  font-weight: bold;  
+}
+.modal_login fieldset{    
+  border: none;
+padding: 10%;  
+}
+.modal_login label{ 
+ font-size: 1.4vw; 
+ /*padding: 12px;*/
+}
+.modal_login input[type=text] {
+  width: 100%;
+  /*padding: 12px 20px; */
+  margin: auto 0;
+  display: inline-block;
+  border: 1px solid #3498db;
+  border-radius: 10px;
+  box-sizing: border-box;
+  /*font-weight: bold;*/
+  font-size: 1.2vw; 
+}
+.modal_login input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #3498db;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 1.2vw;
+}
+.modal_login input[type=submit] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-weight: bold;
+  background-color:#fb8500; 
+  color: #12174C;   
+  font-size:1.6vw; 
+}
+</style>
+</html>

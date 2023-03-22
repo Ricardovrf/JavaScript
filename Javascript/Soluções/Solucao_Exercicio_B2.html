@@ -1,0 +1,40 @@
+<html>
+<head>
+
+<title>Curso JavaScript</title>
+</head>
+<body>
+
+<h2> Exercicio B2</h2>
+
+<input type="text" id="valor" size="10" maxlength="10" onblur="critica();" />
+
+<p id='msg'></p>
+
+<script>
+
+function critica(){
+
+	valor = document.getElementById('valor').value.trim();
+	if (valor!=0) {
+		if (isNaN(document.getElementById('valor').value)){
+			alert("Corrija");
+			//document.getElementById('msg').innerHTML='TESTE';						
+		}
+		else{
+			alert("Tudo Bem");
+			//document.getElementById('msg').innerHTML='NAO';
+		}	
+	}else{
+		alert("Digita Algo");
+	}
+
+
+}
+function apagaMsg(){
+	document.getElementById('msg').innerHTML='';
+}
+
+</script>
+</body>
+</html>
