@@ -21,12 +21,13 @@
 </ul>
 
 
-<button onclick="mover()">Clique aqui para mover</button>
+<button onclick="mover('lista1', 'lista2')">Da Lista 01 para 02</button>
+<button onclick="mover('lista2', 'lista1')">Da Lista 02 para 01</button>
 
 <script>
-function mover() {
-	no = document.getElementById("lista2").children[0]; // Pega filho mais velho
-	list = document.getElementById("lista1");  
+function mover(tirar, colocar) {
+	no = document.getElementById(tirar).children[0]; // Pega filho mais velho
+	list = document.getElementById(colocar);  
 	list.insertBefore(no,null);  
 }
 </script>
